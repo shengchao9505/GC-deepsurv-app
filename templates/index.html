@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gastric Cancer Patients Prediction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
+  </head>
+  <body>
+      <div class="block">
+          <section class="hero is-dark is-bold">
+              <div class="hero-body">
+                  <div class="container has-text-centered">
+                      <h1 class="title">Risk of GC-specific motility in Gastric Cancer Patients</h1>
+                      <h2 class="subtitle">Time-to-event outcome prediction using deep learning</h2>
+                  </div><br>
+                  <div class="container has-text-centered">
+                        <a href="{{url_for('index')}}" class="button is-info is-rounded has-text-centered">Reset</a>
+                  </div>
+
+              </div>
+          </section>
+      </div>
+      <article class="message is-info">
+          <div class="message-header">
+              <p>Input variables</p>
+          </div>
+          <div class="message-body">
+            <div class="card">
+                <!--
+                <header class="card-header">
+                    <p class="card-header-title is-centered">Input variables</p>
+                </header> -->
+                <div class="card-content">
+                    <form action="{{ url_for('analyze') }}" method="POST">
+                        <div class="columns">
+                            <div class="column">
+                                    <div class="field">
+                                            <label for="age" class="label">Patient age</label>
+                                            <div class="control">
+                                                <input type="number" name="age" class="input" placeholder="Number between 20 and 90" min="20" max="90" step="1.0">
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label for="Sex" class="label">Sex</label>
+                                                <div class="select is-link">
+                                                        <select name="Sex" id="Sex">
+                                                            <option value="0">Female</option>
+                                                            <option value="1">Male</option>
+                                                        </select>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label for="race" class="label">Race</label>
+                                                <div class="select is-link">
+                                                        <select name="race" id="race">
+                                                            <option value="1">White</option>
+                                                            <option value="2">Black</option>
+                                                            <option value="3">Other</option>
+                                                        </select>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label for="Primary_Site" class="label">Primary Site</label>
+                                                <div class="select is-link">
+                                                        <select name="Primary_Site" id="Primary_Site">
+                                                            <option value="1">Cardia</option>
+                                                            <option value="2">Fundus</option>
+							<option value="3">Body</option>
+							<option value="4">Antrum</option>
+							<option value="5">Pylorus</option>
+							<option value="6">Lesser curvature</option>
+							<option value="7">Greater curvature</option>
+							<option value="8">Overlapping lesion of stomach</option>
+							<option value="9">stomach</option>
+                                                        </select>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label for="Lauren" class="label">Histological type</label>
+                                                <div class="select is-link">
+                                                        <select name="Lauren" id="Lauren">
+                                                            <option value="1">Intestinal</option>
+                                                            <option value="2">Diffuse</option>
+							<option value="3">Others</option>
+                                                        </select>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label for="Grade" class="label">Grade</label>
+                                                <div class="select is-link">
+                                                        <select name="Grade" id="Grade">
+                                                            <option value="1">Well differentiated; Grade I</option>
+                                                            <option value="2">Moderately differentiated;Grade II</option>
+							<option value="3">Poorly differentiated; Grade III</option>
+							<option value="4">Undifferentiated;Grade IV</option>
+                                                        </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="field">
+                                            <label for="T_7th" class="label">T stage</label>
+                                                <div class="select is-link">
+                                                        <select name="T_7th" id="T_7th">
+                                                            <option value="1">T1a</option>
+                                                            <option value="2">T1b</option>
+							<option value="3">T2</option>
+							<option value="4">T3</option>
+							<option value="5">T4a</option>
+							<option value="6">T4b</option>
+                                                        </select>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label for="N_7th" class="label">N stage</label>
+                                                <div class="select is-link">
+                                                        <select name="N_7th" id="N_7th">
+                                                            <option value="1">N0</option>
+                                                            <option value="2">N1</option>
+                                                            <option value="3">N2</option>
+                                                            <option value="4">N3a</option>
+                                                            <option value="5">N3b</option>
+                                                        </select>
+                                            </div>
+                                        </div>
+                                     </div>
+                            <div class="column">
+                                        <div class="field">
+                                            <label for="M_7th" class="label">M stage</label>
+                                                <div class="select is-link">
+                                                        <select name="M_7th" id="M_7th">
+                                                            <option value="1">Yes</option>
+                                                            <option value="0">No</option>
+                                                        </select>
+                                            </div>
+                                        </div>
+
+                                    <div class="field">
+                                            <label for="nodes_ex" class="label">Regional nodes examined</label>
+                                            <div class="control">
+                                                <input type="number" name="nodes_ex" class="input" placeholder="Enter index number. Can be 0 or greater" min="0" max="100" step="1.0">
+                                            </div>
+                                        </div>
+                                    <div class="field">
+                                            <label for="nodes_pos" class="label">Regional nodes positive</label>
+                                            <div class="control">
+                                                <input type="number" name="nodes_pos" class="input" placeholder="Enter index number. Can be 0 or greater" min="0" max="100" step="1.0">
+                                            </div>
+                                        </div>
+                                    <div class="field">
+                                            <label for="size" class="label">Tumor Size</label>
+                                            <div class="control">
+                                                <input type="number" name="size" class="input" placeholder="Enter size (cm). Can be 0 or greater" min="0" max="1000" step="1.0">
+                                            </div>
+                                        </div>
+
+                                        <div class="field">
+                                            <label for="Surgery" class="label">The type of Surgery</label>
+                                                <div class="select is-link">
+                                                        <select name="Surgery" id="Surgery">
+                                                            <option value="1">Partial Gastrectomy</option>
+                                                            <option value="2">Near-total Gastrectomy</option>
+                                                        </select>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label for="radiation" class="label">Radiation</label>
+                                                <div class="select is-link">
+                                                        <select name="radiation" id="radiation">
+                                                            <option value="1">Yes</option>
+                                                            <option value="0">No/Unknown</option>
+                                                        </select>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label for="chemo" class="label">Chemotherapy</label>
+                                                <div class="select is-link">
+                                                        <select name="chemo" id="chemo">
+                                                            <option value="1">Yes</option>
+                                                            <option value="0">No/Unknown</option>
+                                                        </select>
+                                            </div>
+                                        </div>
+                            </div>
+                        </div>
+
+
+                      <br>
+                      <div class="container has-text-centered">
+                            <div class="field">
+                                    <label for="role" class="label">Select Model</label>
+                                    <div class="control">
+                                        <div class="container has-text-centered">
+                                                <div class="select is-success">
+                                                        <select name="model_choice" id="role">
+                                                            <option value="deepsurv">DeepSurv</option>
+                                                        </select>
+                                                    </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <br>
+                                <button class="button is-primary" type="submit">Predict</button>
+                                <button class="button" type="reset">Clear</button>
+                      </div>
+
+                    </form>
+                </div>
+            </div>
+          </div>
+      </article>
+
+      <footer class="footer">
+            <div class="content has-text-centered">
+              <p>
+                <strong>Gastric Cancer Research, TJ  |  2022 </strong><br>
+                <a href="https://facdent.hku.hk/research/oral-cancer.html">Group website</a> | <a href="https://github.com/shengchao9505/">Bug Report</a>
+              </p>
+            </div>
+          </footer>
+  </body>
+</html>
